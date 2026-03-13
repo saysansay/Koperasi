@@ -15,6 +15,24 @@
                     <label class="form-label">{{ __('app.email') }}</label>
                     <input type="email" class="form-control" name="email" value="{{ old('email', $user->email) }}" required>
                 </div>
+                @if($user->member)
+                    <div class="col-md-6">
+                        <label class="form-label">{{ __('app.phone_number') }}</label>
+                        <input class="form-control" name="phone_number" value="{{ old('phone_number', $user->member->phone_number) }}">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">{{ __('app.address') }}</label>
+                        <textarea class="form-control" rows="3" name="address">{{ old('address', $user->member->address) }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{{ __('app.member_id') }}</label>
+                        <input class="form-control" value="{{ $user->member->member_id }}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{{ __('app.join_date') }}</label>
+                        <input class="form-control" value="{{ $user->member->join_date?->format('Y-m-d') ?? '-' }}" disabled>
+                    </div>
+                @endif
                 <div class="col-md-6">
                     <label class="form-label">{{ __('app.role') }}</label>
                     <input class="form-control" value="{{ $user->role?->name ?? '-' }}" disabled>

@@ -20,13 +20,26 @@ class ProfileController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $user = $request->user();
-
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'phone_number' => ['nullable', 'string', 'max:30'],
+            'address' => ['nullable', 'string'],
         ]);
 
-        $user->update($data);
+        $user->update([
+            'name' => $data['name'],
+            'email' => $data['email'],
+        ]);
+
+        if ($user->member) {
+            $user->member->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone_number' => $data['phone_number'] ?: $user->member->phone_number,
+                'address' => $data['address'] ?: $user->member->address,
+            ]);
+        }
 
         return redirect()->route('profile.show')->with('success', __('app.profile_updated'));
     }
