@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'app_name' => 'Employee Cooperative',
+    'app_name' => 'Koperasi Karyawan',
     'company_name' => 'PT FCC INDONESIA',
     'workspace' => 'SAP R/3 Styled Workspace',
     'dashboard' => 'Dashboard',

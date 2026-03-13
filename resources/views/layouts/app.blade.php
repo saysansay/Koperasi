@@ -17,7 +17,7 @@
                 <h4 class="fw-bold mb-1">{{ __('app.app_name') }}</h4>
                 <div class="small text-white-50">{{ __('app.company_name') }}</div>
             </div>
-            <nav class="nav flex-column">
+            <nav class="nav flex-column sidebar-nav">
                 @foreach(auth()->user()->visibleMenus() as $menu)
                     @php
                         $routeName = $menu['route'];
@@ -31,7 +31,7 @@
         </aside>
         <main id="appMain" class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-3">
             <div class="topbar p-3 mb-4 d-flex flex-wrap justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2 topbar-title-group">
                     <button type="button" class="btn btn-light btn-sm sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="true">
                         <i class="bi bi-layout-sidebar-inset"></i>
                     </button>
@@ -40,7 +40,7 @@
                     <div class="text-muted small">{{ now()->format('l, d M Y') }}</div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3 topbar-actions">
                     <div class="dropdown">
                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ strtoupper(app()->getLocale()) }}
@@ -105,9 +105,12 @@
     (() => {
         const body = document.body;
         const toggle = document.getElementById('sidebarToggle');
+        const main = document.getElementById('appMain');
+        const isMobile = () => window.innerWidth < 768;
         const storageKey = 'koperasi-sidebar-collapsed';
 
-        if (localStorage.getItem(storageKey) === 'true') {
+        const saved = localStorage.getItem(storageKey);
+        if ((saved === null && isMobile()) || saved === 'true') {
             body.classList.add('sidebar-collapsed');
             toggle?.setAttribute('aria-expanded', 'false');
         }
@@ -116,6 +119,21 @@
             const collapsed = body.classList.toggle('sidebar-collapsed');
             localStorage.setItem(storageKey, collapsed ? 'true' : 'false');
             toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        });
+
+        main?.addEventListener('click', () => {
+            if (isMobile() && !body.classList.contains('sidebar-collapsed')) {
+                body.classList.add('sidebar-collapsed');
+                localStorage.setItem(storageKey, 'true');
+                toggle?.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (isMobile() && localStorage.getItem(storageKey) === null) {
+                body.classList.add('sidebar-collapsed');
+                toggle?.setAttribute('aria-expanded', 'false');
+            }
         });
     })();
 </script>
