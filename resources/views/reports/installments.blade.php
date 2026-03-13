@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title', __('app.installment_report'))
+@section('content')
+<div class="mb-3 d-flex gap-2 flex-wrap"><a class="btn btn-success" href="{{ route('reports.export', 'installments') }}">{{ __('app.export_excel') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.members') }}">{{ __('app.member_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.savings') }}">{{ __('app.savings_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.loans') }}">{{ __('app.loan_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.financial') }}">{{ __('app.financial_statement') }}</a></div>
+<div class="card panel"><div class="card-body table-responsive"><table class="table"><thead><tr><th>{{ __('app.date') }}</th><th>{{ __('app.loans') }}</th><th>{{ __('app.member') }}</th><th>{{ __('app.amount') }}</th><th>{{ __('app.remaining') }}</th></tr></thead><tbody>@foreach($payments as $payment)<tr><td>{{ $payment->payment_date->format('Y-m-d') }}</td><td>{{ $payment->loan->application_number }}</td><td>{{ $payment->loan->member->name }}</td><td>Rp {{ number_format($payment->payment_amount, 0) }}</td><td>Rp {{ number_format($payment->remaining_balance, 0) }}</td></tr>@endforeach</tbody></table></div></div>
+@endsection

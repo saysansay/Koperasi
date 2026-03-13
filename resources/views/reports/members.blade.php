@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title', __('app.member_report'))
+@section('content')
+<div class="mb-3 d-flex gap-2 flex-wrap"><a class="btn btn-success" href="{{ route('reports.export', 'members') }}">{{ __('app.export_excel') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.savings') }}">{{ __('app.savings_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.loans') }}">{{ __('app.loan_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.installments') }}">{{ __('app.installment_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.financial') }}">{{ __('app.financial_statement') }}</a></div>
+<div class="card panel"><div class="card-body table-responsive"><table class="table"><thead><tr><th>{{ __('app.member_id') }}</th><th>{{ __('app.name') }}</th><th>{{ __('app.ktp') }}</th><th>{{ __('app.phone') }}</th><th>{{ __('app.status') }}</th></tr></thead><tbody>@foreach($members as $member)<tr><td>{{ $member->member_id }}</td><td>{{ $member->name }}</td><td>{{ $member->ktp_number }}</td><td>{{ $member->phone_number }}</td><td>{{ $member->status === 'active' ? __('app.active') : ($member->status === 'inactive' ? __('app.inactive') : __('app.suspended')) }}</td></tr>@endforeach</tbody></table></div></div>
+@endsection

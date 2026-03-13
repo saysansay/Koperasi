@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title', __('app.chart_of_accounts'))
+@section('content')
+<div class="d-flex justify-content-end mb-3"><a class="btn btn-primary" href="{{ route('accounts.create') }}">{{ __('app.add_account') }}</a></div>
+<div class="card panel"><div class="card-body table-responsive"><table class="table table-hover"><thead><tr><th>{{ __('app.code') }}</th><th>{{ __('app.name') }}</th><th>{{ __('app.category') }}</th><th>{{ __('app.status') }}</th><th></th></tr></thead><tbody>@forelse($accounts as $account)<tr><td>{{ $account->code }}</td><td>{{ $account->name }}</td><td>{{ __('app.'.$account->category) }}</td><td>{{ $account->is_active ? __('app.active') : __('app.inactive') }}</td><td class="text-end d-flex gap-2 justify-content-end"><a class="btn btn-sm btn-outline-secondary" href="{{ route('accounts.show', $account) }}">{{ __('app.ledger') }}</a><a class="btn btn-sm btn-outline-primary" href="{{ route('accounts.edit', $account) }}">{{ __('app.edit') }}</a><form method="POST" action="{{ route('accounts.destroy', $account) }}">@csrf @method('DELETE')<button class="btn btn-sm btn-outline-danger" onclick="return confirm('{{ __('app.delete') }}?')">{{ __('app.delete') }}</button></form></td></tr>@empty<tr><td colspan="5" class="text-center text-muted">{{ __('app.no_accounts_found') }}</td></tr>@endforelse</tbody></table></div></div>
+<div class="mt-3">{{ $accounts->links() }}</div>
+@endsection

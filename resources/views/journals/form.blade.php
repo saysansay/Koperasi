@@ -1,0 +1,9 @@
+<div class="card panel"><div class="card-body row g-3">
+    <div class="col-md-4"><label class="form-label">{{ __('app.reference_no') }}</label><input class="form-control" name="reference_no" value="{{ old('reference_no', $journal->reference_no ?? 'JRN-'.now()->format('YmdHis')) }}" required></div>
+    <div class="col-md-4"><label class="form-label">{{ __('app.entry_date') }}</label><input type="date" class="form-control" name="entry_date" value="{{ old('entry_date', isset($journal) ? $journal->entry_date?->format('Y-m-d') : now()->format('Y-m-d')) }}" required></div>
+    <div class="col-md-4"><label class="form-label">{{ __('app.amount') }}</label><input type="number" step="0.01" class="form-control" name="amount" value="{{ old('amount', $journal->total_amount ?? '') }}" required></div>
+    <div class="col-12"><label class="form-label">{{ __('app.description') }}</label><input class="form-control" name="description" value="{{ old('description', $journal->description ?? '') }}" required></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.debit_account') }}</label><select class="form-select" name="debit_account_id">@foreach($accounts as $account)<option value="{{ $account->id }}" @selected(old('debit_account_id', $journal->lines[0]->account_id ?? '') == $account->id)>{{ $account->code }} - {{ $account->name }}</option>@endforeach</select></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.credit_account') }}</label><select class="form-select" name="credit_account_id">@foreach($accounts as $account)<option value="{{ $account->id }}" @selected(old('credit_account_id', $journal->lines[1]->account_id ?? '') == $account->id)>{{ $account->code }} - {{ $account->name }}</option>@endforeach</select></div>
+    <div class="col-12 d-flex gap-2"><button class="btn btn-primary">{{ __('app.save') }}</button><a class="btn btn-light" href="{{ route('journals.index') }}">{{ __('app.cancel') }}</a></div>
+</div></div>

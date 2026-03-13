@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title', __('app.installment_payments'))
+@section('content')
+<div class="d-flex justify-content-end mb-3"><a class="btn btn-primary" href="{{ route('installments.create') }}">{{ __('app.add_installment_payment') }}</a></div>
+<div class="card panel"><div class="card-body table-responsive"><table class="table table-hover"><thead><tr><th>{{ __('app.date') }}</th><th>{{ __('app.loan_management') }}</th><th>{{ __('app.member') }}</th><th>{{ __('app.installment_number') }}</th><th>{{ __('app.amount') }}</th><th>{{ __('app.remaining') }}</th><th></th></tr></thead><tbody>@forelse($payments as $payment)<tr><td>{{ $payment->payment_date->format('Y-m-d') }}</td><td>{{ $payment->loan->application_number }}</td><td>{{ $payment->loan->member->name }}</td><td>{{ $payment->installment_number }}</td><td>Rp {{ number_format($payment->payment_amount, 0) }}</td><td>Rp {{ number_format($payment->remaining_balance, 0) }}</td><td class="text-end d-flex gap-2 justify-content-end"><a class="btn btn-sm btn-outline-primary" href="{{ route('installments.edit', $payment) }}">{{ __('app.edit') }}</a><form method="POST" action="{{ route('installments.destroy', $payment) }}">@csrf @method('DELETE')<button class="btn btn-sm btn-outline-danger" onclick="return confirm('{{ __('app.delete') }}?')">{{ __('app.delete') }}</button></form></td></tr>@empty<tr><td colspan="7" class="text-center text-muted">{{ __('app.no_installment_payments_found') }}</td></tr>@endforelse</tbody></table></div></div>
+<div class="mt-3">{{ $payments->links() }}</div>
+@endsection

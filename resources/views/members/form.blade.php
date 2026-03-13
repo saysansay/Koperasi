@@ -1,0 +1,11 @@
+<div class="card panel"><div class="card-body row g-3">
+    <div class="col-md-6"><label class="form-label">{{ __('app.member_id') }}</label><input class="form-control" name="member_id" value="{{ old('member_id', $member->member_id ?? '') }}" required></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.member_name') }}</label><input class="form-control" name="name" value="{{ old('name', $member->name ?? '') }}" required></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.id_number_ktp') }}</label><input class="form-control" name="ktp_number" value="{{ old('ktp_number', $member->ktp_number ?? '') }}" required></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.phone_number') }}</label><input class="form-control" name="phone_number" value="{{ old('phone_number', $member->phone_number ?? '') }}" required></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.email') }}</label><input type="email" class="form-control" name="email" value="{{ old('email', $member->email ?? '') }}"></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.join_date') }}</label><input type="date" class="form-control" name="join_date" value="{{ old('join_date', isset($member) ? $member->join_date?->format('Y-m-d') : '') }}" required></div>
+    <div class="col-12"><label class="form-label">{{ __('app.address') }}</label><textarea class="form-control" rows="3" name="address" required>{{ old('address', $member->address ?? '') }}</textarea></div>
+    <div class="col-md-4"><label class="form-label">{{ __('app.status') }}</label><select class="form-select" name="status"><option value="active" @selected(old('status', $member->status ?? 'active') === 'active')>{{ __('app.active') }}</option><option value="inactive" @selected(old('status', $member->status ?? '') === 'inactive')>{{ __('app.inactive') }}</option><option value="suspended" @selected(old('status', $member->status ?? '') === 'suspended')>{{ __('app.suspended') }}</option></select></div>
+    <div class="col-12 d-flex gap-2"><button class="btn btn-primary">{{ __('app.save') }}</button><a class="btn btn-light" href="{{ route('members.index') }}">{{ __('app.cancel') }}</a></div>
+</div></div>

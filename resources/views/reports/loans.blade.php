@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title', __('app.loan_report'))
+@section('content')
+<div class="mb-3 d-flex gap-2 flex-wrap"><a class="btn btn-success" href="{{ route('reports.export', 'loans') }}">{{ __('app.export_excel') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.members') }}">{{ __('app.member_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.savings') }}">{{ __('app.savings_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.installments') }}">{{ __('app.installment_report') }}</a><a class="btn btn-outline-secondary" href="{{ route('reports.financial') }}">{{ __('app.financial_statement') }}</a></div>
+<div class="card panel"><div class="card-body table-responsive"><table class="table"><thead><tr><th>{{ __('app.application_no') }}</th><th>{{ __('app.member') }}</th><th>{{ __('app.type') }}</th><th>{{ __('app.amount') }}</th><th>{{ __('app.status') }}</th><th>{{ __('app.remaining') }}</th></tr></thead><tbody>@foreach($loans as $loan)<tr><td>{{ $loan->application_number }}</td><td>{{ $loan->member->name }}</td><td>{{ $loan->loanType->name }}</td><td>Rp {{ number_format($loan->amount, 0) }}</td><td>{{ __('app.'.$loan->status) }}</td><td>Rp {{ number_format($loan->remaining_balance, 0) }}</td></tr>@endforeach</tbody></table></div></div>
+@endsection
