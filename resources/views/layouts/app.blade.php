@@ -115,14 +115,35 @@
             toggle?.setAttribute('aria-expanded', 'false');
         }
 
-        toggle?.addEventListener('click', () => {
+        toggle?.addEventListener('click', (event) => {
+            event.stopPropagation();
             const collapsed = body.classList.toggle('sidebar-collapsed');
             localStorage.setItem(storageKey, collapsed ? 'true' : 'false');
             toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
         });
 
-        main?.addEventListener('click', () => {
-            if (isMobile() && !body.classList.contains('sidebar-collapsed')) {
+        main?.addEventListener('click', (event) => {
+            if (!isMobile() || body.classList.contains('sidebar-collapsed')) {
+                return;
+            }
+
+            if (event.target.closest('.topbar')) {
+                return;
+            }
+
+            if (event.target.closest('.dropdown-menu')) {
+                return;
+            }
+
+            if (event.target.closest('[data-bs-toggle="dropdown"]')) {
+                return;
+            }
+
+            if (event.target.closest('.sidebar-toggle')) {
+                return;
+            }
+
+            if (!body.classList.contains('sidebar-collapsed')) {
                 body.classList.add('sidebar-collapsed');
                 localStorage.setItem(storageKey, 'true');
                 toggle?.setAttribute('aria-expanded', 'false');
