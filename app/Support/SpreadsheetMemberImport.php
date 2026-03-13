@@ -24,10 +24,21 @@ class SpreadsheetMemberImport
             throw new RuntimeException('Unable to open CSV file.');
         }
 
+        $firstLine = fgets($handle);
+
+        if ($firstLine === false) {
+            fclose($handle);
+
+            return [];
+        }
+
+        $delimiter = self::detectDelimiter($firstLine);
+        rewind($handle);
+
         $rows = [];
 
-        while (($row = fgetcsv($handle)) !== false) {
-            $rows[] = array_map(fn ($value) => trim((string) $value), $row);
+        while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+            $rows[] = array_map(fn ($value) => self::normalizeCsvValue($value), $row);
         }
 
         fclose($handle);
@@ -140,5 +151,30 @@ class SpreadsheetMemberImport
         }
 
         return max($index - 1, 0);
+    }
+
+    private static function detectDelimiter(string $line): string
+    {
+        $delimiters = [',' , ';', "\t", '|'];
+        $winner = ',';
+        $count = -1;
+
+        foreach ($delimiters as $delimiter) {
+            $currentCount = count(str_getcsv($line, $delimiter));
+
+            if ($currentCount > $count) {
+                $count = $currentCount;
+                $winner = $delimiter;
+            }
+        }
+
+        return $winner;
+    }
+
+    private static function normalizeCsvValue(?string $value): string
+    {
+        $normalized = trim((string) $value);
+
+        return (string) preg_replace('/^\xEF\xBB\xBF/', '', $normalized);
     }
 }

@@ -85,6 +85,9 @@ class MemberController extends Controller
 
             $values = array_slice(array_pad($row, count(self::IMPORT_HEADERS), ''), 0, count(self::IMPORT_HEADERS));
             $payload = array_combine(self::IMPORT_HEADERS, $values);
+            $payload['member_id'] = trim((string) $payload['member_id']) !== ''
+                ? trim((string) $payload['member_id'])
+                : $this->generateUniqueMemberId();
             $payload['email'] = $payload['email'] !== '' ? $payload['email'] : null;
             $payload['status'] = strtolower(trim((string) $payload['status']));
 
