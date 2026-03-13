@@ -11,6 +11,8 @@ class Member extends Model
 {
     use HasFactory;
 
+    public const ID_PREFIX = 'MBR-';
+
     protected $fillable = [
         'member_id',
         'name',
@@ -50,5 +52,21 @@ class Member extends Model
     public function getSavingsBalanceAttribute(): float
     {
         return (float) $this->savings()->selectRaw("COALESCE(SUM(CASE WHEN transaction_type = 'deposit' THEN amount ELSE -amount END), 0) as balance")->value('balance');
+    }
+
+    public static function generateNextMemberId(): string
+    {
+        $maxNumber = static::query()
+            ->pluck('member_id')
+            ->map(function ($memberId) {
+                if (! preg_match('/^'.preg_quote(self::ID_PREFIX, '/').'(\d+)$/', (string) $memberId, $matches)) {
+                    return 0;
+                }
+
+                return (int) $matches[1];
+            })
+            ->max() ?? 0;
+
+        return self::ID_PREFIX.str_pad((string) ($maxNumber + 1), 3, '0', STR_PAD_LEFT);
     }
 }

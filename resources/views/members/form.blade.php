@@ -1,5 +1,5 @@
 <div class="card panel"><div class="card-body row g-3">
-    <div class="col-md-6"><label class="form-label">{{ __('app.member_id') }}</label><input class="form-control" name="member_id" value="{{ old('member_id', $member->member_id ?? '') }}" required></div>
+    <div class="col-md-6"><label class="form-label">{{ __('app.member_id') }}</label><input class="form-control" name="member_id" value="{{ old('member_id', $member->member_id ?? ($generatedMemberId ?? '')) }}" readonly></div>
     <div class="col-md-6"><label class="form-label">{{ __('app.member_name') }}</label><input class="form-control" name="name" value="{{ old('name', $member->name ?? '') }}" required></div>
     <div class="col-md-6"><label class="form-label">{{ __('app.id_number_ktp') }}</label><input class="form-control" name="ktp_number" value="{{ old('ktp_number', $member->ktp_number ?? '') }}" required></div>
     <div class="col-md-6"><label class="form-label">{{ __('app.phone_number') }}</label><input class="form-control" name="phone_number" value="{{ old('phone_number', $member->phone_number ?? '') }}" required></div>

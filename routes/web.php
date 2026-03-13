@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/change-password', [ProfileController::class, 'editPassword'])->name('profile.password.edit');
     Route::put('/change-password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
+    Route::get('members/import-template', [MemberController::class, 'importTemplate'])->name('members.import-template')->middleware('role:admin,manager,staff');
+    Route::post('members/import', [MemberController::class, 'import'])->name('members.import')->middleware('role:admin,manager,staff');
     Route::resource('members', MemberController::class)->middleware('role:admin,manager,staff');
     Route::resource('savings', SavingsController::class)->middleware('role:admin,manager,staff');
     Route::resource('sale-payments', SalePaymentController::class)->parameters(['sale-payments' => 'salePayment'])->middleware('role:admin,manager,staff');
