@@ -48,6 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)->middleware('role:admin');
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index')->middleware('role:admin,manager');
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update')->middleware('role:admin,manager');
+    Route::post('settings/saving-types', [SettingController::class, 'storeSavingType'])->name('settings.saving-types.store')->middleware('role:admin,manager');
+    Route::put('settings/saving-types/{savingType}', [SettingController::class, 'updateSavingType'])->name('settings.saving-types.update')->middleware('role:admin,manager');
+    Route::post('settings/loan-types', [SettingController::class, 'storeLoanType'])->name('settings.loan-types.store')->middleware('role:admin,manager');
+    Route::put('settings/loan-types/{loanType}', [SettingController::class, 'updateLoanType'])->name('settings.loan-types.update')->middleware('role:admin,manager');
 
     Route::prefix('reports')->name('reports.')->middleware('role:admin,manager')->group(function () {
         Route::get('members', [ReportController::class, 'members'])->name('members');
